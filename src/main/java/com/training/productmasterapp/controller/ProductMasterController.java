@@ -5,6 +5,7 @@ import com.training.productmasterapp.service.ProductMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -22,12 +23,14 @@ public class ProductMasterController {
     }
 
     // -------- GET all products --------
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping
     public ResponseEntity<List<ProductMaster>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
     // -------- GET by functional key (productId) --------
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping("/byProductId/{productId}")
     public ResponseEntity<?> getProductByProductId(@PathVariable Long productId) {
         ProductMaster product = productService.findByProductId(productId);
@@ -36,6 +39,7 @@ public class ProductMasterController {
     }
 
     // -------- GET by technical key (id) --------
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getProductById(@PathVariable Long id) {
         ProductMaster product = productService.findById(id);
@@ -44,6 +48,7 @@ public class ProductMasterController {
     }
 
     // -------- CREATE --------
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PostMapping
     public ResponseEntity<Map<String, String>> createProduct(@RequestBody ProductMaster productMaster) {
         Map<String, String> response = new HashMap<>();
@@ -56,6 +61,7 @@ public class ProductMasterController {
     }
 
     // -------- UPDATE (technical key id) --------
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, String>> updateProduct(
             @PathVariable Long id, @RequestBody ProductMaster productMaster) {
@@ -72,6 +78,7 @@ public class ProductMasterController {
     }
 
     // -------- DELETE (technical key id) --------
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> deleteProduct(@PathVariable Long id) {
         Map<String, String> response = new HashMap<>();
@@ -86,6 +93,7 @@ public class ProductMasterController {
     }
 
     // -------- SEARCH (functional fields) --------
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping("/search/name/{productName}")
     public ResponseEntity<?> getByProductName(@PathVariable String productName) {
         List<ProductMaster> products = productService.findByProductName(productName);
@@ -94,6 +102,7 @@ public class ProductMasterController {
                 : ResponseEntity.ok(products);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping("/search/type/{productType}")
     public ResponseEntity<?> getByProductType(@PathVariable String productType) {
         List<ProductMaster> products = productService.findByProductType(productType);
@@ -102,6 +111,7 @@ public class ProductMasterController {
                 : ResponseEntity.ok(products);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping("/search/status/{status}")
     public ResponseEntity<?> getByStatus(@PathVariable String status) {
         List<ProductMaster> products = productService.findByStatus(status);
@@ -110,6 +120,7 @@ public class ProductMasterController {
                 : ResponseEntity.ok(products);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping("/search/interestRateAbove/{rate}")
     public ResponseEntity<?> getByInterestRateAbove(@PathVariable double rate) {
         List<ProductMaster> products = productService.findByInterestRateGreaterThan(rate);
@@ -118,6 +129,7 @@ public class ProductMasterController {
                 : ResponseEntity.ok(products);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping("/search/minBalanceBelow/{amount}")
     public ResponseEntity<?> getLowMinBalanceProducts(@PathVariable double amount) {
         List<ProductMaster> products = productService.findProductsWithLowMinBalance(amount);
@@ -126,6 +138,7 @@ public class ProductMasterController {
                 : ResponseEntity.ok(products);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping("/search/chargeRange/{min}/{max}")
     public ResponseEntity<?> getByChargeRange(@PathVariable double min, @PathVariable double max) {
         List<ProductMaster> products = productService.findProductsByChargeRange(min, max);
@@ -135,17 +148,20 @@ public class ProductMasterController {
     }
 
     // -------- CHECK existence --------
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping("/{id}/exists")
     public ResponseEntity<Boolean> checkIfExists(@PathVariable Long id) {
         return ResponseEntity.ok(productService.checkProductExists(id));
     }
 
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping("/{accountType}")
     public ResponseEntity<?> getByAccountType(@PathVariable String accountType) {
         String name = String.valueOf(accountType.toLowerCase());
         return ResponseEntity.ok(productService.findByProductTypeAndMinBalanceLessThan(name));
     }
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','TELLER')")
     @GetMapping("withFetaures/{id}")
     public ResponseEntity<?> getWithFetauresById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.findProductWithFeatures(id));
