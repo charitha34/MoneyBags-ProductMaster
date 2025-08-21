@@ -1,0 +1,76 @@
+<h2>Products Display</h2>
+
+<!-- Table to Display Products -->
+<oj-table id="productTable" data="[[dataProvider]]" columns='[
+    {"headerText": "ID (Technical Key)", "field": "id"},
+    {"headerText": "Product ID", "field": "productId"},
+    {"headerText": "Product Name", "field": "productName"},
+    {"headerText": "Product Type", "field": "productType"},
+    {"headerText": "Interest Rate", "field": "interestRate"},
+    {"headerText": "Min Balance", "field": "minBalance"},
+    {"headerText": "Account Open Charge", "field": "accountOpenCharge"},
+    {"headerText": "Status", "field": "status"}
+  ]'>
+</oj-table>
+
+<br/><br/>
+
+<!-- Action Buttons -->
+<oj-button on-oj-action="[[openAddDialog]]">Add Product</oj-button>
+<oj-button on-oj-action="[[openEditDialog]]">Edit Product</oj-button>
+<oj-button on-oj-action="[[openDeleteDialog]]">Delete Product</oj-button>
+
+<br/><br/>
+
+<!-- Add Product Dialog -->
+<oj-dialog id="addProductDialog" dialog-title="Add Product">
+  <div slot="body">
+    <oj-form-layout label-edge="inside">
+      <oj-input-text value="{{id}}" label-hint="ID (Technical Key)"></oj-input-text>
+      <oj-input-text value="{{productId}}" label-hint="Product ID"></oj-input-text>
+      <oj-input-text value="{{productName}}" label-hint="Product Name"></oj-input-text>
+      <oj-input-text value="{{productType}}" label-hint="Product Type (e.g., R/S)"></oj-input-text>
+      <oj-input-text value="{{interestRate}}" label-hint="Interest Rate"></oj-input-text>
+      <oj-input-text value="{{minBalance}}" label-hint="Minimum Balance"></oj-input-text>
+      <oj-input-text value="{{accountOpenCharge}}" label-hint="Account Open Charge"></oj-input-text>
+      <oj-input-text value="{{status}}" label-hint="Status (ACTIVE/INACTIVE)"></oj-input-text>
+    </oj-form-layout>
+  </div>
+  <div slot="footer">
+    <oj-button on-oj-action="[[addProduct]]">Save</oj-button>
+    <oj-button on-oj-action="[[function(){ document.getElementById('addProductDialog').close(); }]]">Cancel</oj-button>
+  </div>
+</oj-dialog>
+
+<!-- Edit Product Dialog -->
+<oj-dialog id="editProductDialog" dialog-title="Edit Product">
+  <div slot="body">
+    <oj-form-layout label-edge="inside">
+      <oj-input-text value="{{id}}" label-hint="ID (Technical Key)"></oj-input-text>
+      <oj-input-text value="{{productId}}" label-hint="Product ID"></oj-input-text>
+      <oj-input-text value="{{productName}}" label-hint="Product Name"></oj-input-text>
+      <oj-input-text value="{{productType}}" label-hint="Product Type"></oj-input-text>
+      <oj-input-text value="{{interestRate}}" label-hint="Interest Rate"></oj-input-text>
+      <oj-input-text value="{{minBalance}}" label-hint="Minimum Balance"></oj-input-text>
+      <oj-input-text value="{{accountOpenCharge}}" label-hint="Account Open Charge"></oj-input-text>
+      <oj-input-text value="{{status}}" label-hint="Status"></oj-input-text>
+    </oj-form-layout>
+  </div>
+  <div slot="footer">
+    <oj-button on-oj-action="[[editProduct]]">Update</oj-button>
+    <oj-button on-oj-action="[[function(){ document.getElementById('editProductDialog').close(); }]]">Cancel</oj-button>
+  </div>
+</oj-dialog>
+
+<!-- Delete Product Dialog -->
+<oj-dialog id="deleteProductDialog" dialog-title="Delete Product">
+  <div slot="body">
+    <oj-form-layout label-edge="inside">
+      <oj-input-text value="{{id}}" label-hint="ID (Technical Key)"></oj-input-text>
+    </oj-form-layout>
+  </div>
+  <div slot="footer">
+    <oj-button on-oj-action="[[deleteProduct]]">Delete</oj-button>
+    <oj-button on-oj-action="[[function(){ document.getElementById('deleteProductDialog').close(); }]]">Cancel</oj-button>
+  </div>
+</oj-dialog>
